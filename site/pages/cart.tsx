@@ -1,41 +1,41 @@
-import type { GetStaticPropsContext } from 'next'
+import type {GetStaticPropsContext} from 'next'
 import useCart from '@framework/cart/use-cart'
 import usePrice from '@framework/product/use-price'
 import commerce from '@lib/api/commerce'
-import { Layout } from '@components/common'
-import { Button, Text, Container } from '@components/ui'
-import { Bag, Cross, Check, MapPin, CreditCard } from '@components/icons'
-import { CartItem } from '@components/cart'
-import { useUI } from '@components/ui/context'
+import {Layout} from '@components/common'
+import {Button, Text, Container} from '@components/ui'
+import {Bag, Cross, Check, MapPin, CreditCard} from '@components/icons'
+import {CartItem} from '@components/cart'
+import {useUI} from '@components/ui/context'
 
 export async function getStaticProps({
-  preview,
-  locale,
-  locales,
-}: GetStaticPropsContext) {
-  const config = { locale, locales }
-  const pagesPromise = commerce.getAllPages({ config, preview })
-  const siteInfoPromise = commerce.getSiteInfo({ config, preview })
-  const { pages } = await pagesPromise
-  const { categories } = await siteInfoPromise
+                                       preview,
+                                       locale,
+                                       locales,
+                                     }: GetStaticPropsContext) {
+  const config = {locale, locales}
+  const pagesPromise = commerce.getAllPages({config, preview})
+  const siteInfoPromise = commerce.getSiteInfo({config, preview})
+  const {pages} = await pagesPromise
+  const {categories} = await siteInfoPromise
   return {
-    props: { pages, categories },
+    props: {pages, categories},
   }
 }
 
 export default function Cart() {
   const error = null
   const success = null
-  const { data, isLoading, isEmpty } = useCart()
-  const { openSidebar, setSidebarView } = useUI()
+  const {data, isLoading, isEmpty} = useCart()
+  const {openSidebar, setSidebarView} = useUI()
 
-  const { price: subTotal } = usePrice(
+  const {price: subTotal} = usePrice(
     data && {
       amount: Number(data.subtotalPrice),
       currencyCode: data.currency.code,
     }
   )
-  const { price: total } = usePrice(
+  const {price: total} = usePrice(
     data && {
       amount: Number(data.totalPrice),
       currencyCode: data.currency.code,
@@ -52,8 +52,9 @@ export default function Cart() {
       <div className="lg:col-span-7">
         {isLoading || isEmpty ? (
           <div className="flex-1 px-12 py-24 flex flex-col justify-center items-center ">
-            <span className="border border-dashed border-secondary flex items-center justify-center w-16 h-16 bg-primary p-12 rounded-lg text-primary">
-              <Bag className="absolute" />
+            <span
+              className="border border-dashed border-secondary flex items-center justify-center w-16 h-16 bg-primary p-12 rounded-lg text-primary">
+              <Bag className="absolute"/>
             </span>
             <h2 className="pt-6 text-2xl font-bold tracking-wide text-center">
               Your cart is empty
@@ -65,7 +66,7 @@ export default function Cart() {
         ) : error ? (
           <div className="flex-1 px-4 flex flex-col justify-center items-center">
             <span className="border border-white rounded-full flex items-center justify-center w-16 h-16">
-              <Cross width={24} height={24} />
+              <Cross width={24} height={24}/>
             </span>
             <h2 className="pt-6 text-xl font-light text-center">
               We couldn’t process the purchase. Please check your card
@@ -75,7 +76,7 @@ export default function Cart() {
         ) : success ? (
           <div className="flex-1 px-4 flex flex-col justify-center items-center">
             <span className="border border-white rounded-full flex items-center justify-center w-16 h-16">
-              <Check />
+              <Check/>
             </span>
             <h2 className="pt-6 text-xl font-light text-center">
               Thank you for your order.
@@ -117,9 +118,10 @@ export default function Cart() {
             <>
               {/* Shipping Address */}
               {/* Only available with customCheckout set to true - Meaning that the provider does offer checkout functionality. */}
-              <div className="rounded-md border border-accent-2 px-6 py-6 mb-4 text-center flex items-center justify-center cursor-pointer hover:border-accent-4">
+              <div
+                className="rounded-md border border-accent-2 px-6 py-6 mb-4 text-center flex items-center justify-center cursor-pointer hover:border-accent-4">
                 <div className="mr-5">
-                  <MapPin />
+                  <MapPin/>
                 </div>
                 <div className="text-sm text-center font-medium">
                   <span className="uppercase">+ Add Shipping Address</span>
@@ -131,9 +133,10 @@ export default function Cart() {
               </div>
               {/* Payment Method */}
               {/* Only available with customCheckout set to true - Meaning that the provider does offer checkout functionality. */}
-              <div className="rounded-md border border-accent-2 px-6 py-6 mb-4 text-center flex items-center justify-center cursor-pointer hover:border-accent-4">
+              <div
+                className="rounded-md border border-accent-2 px-6 py-6 mb-4 text-center flex items-center justify-center cursor-pointer hover:border-accent-4">
                 <div className="mr-5">
-                  <CreditCard />
+                  <CreditCard/>
                 </div>
                 <div className="text-sm text-center font-medium">
                   <span className="uppercase">+ Add Payment Method</span>
